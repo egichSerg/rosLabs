@@ -1,0 +1,4 @@
+ros2 topic pub --once /cmd_text std_msgs/msg/String "{data: 'move_forward'}"
+ros2 topic pub --once /cmd_text std_msgs/msg/String "{data: 'move_backward'}"
+ros2 topic pub --once /cmd_text std_msgs/msg/String "{data: 'turn_left'}"
+ros2 topic pub --once /cmd_text std_msgs/msg/String "{data: 'tuen_right'}"
