@@ -32,7 +32,7 @@ private:
 		if (msg.data == "move_backward") twist.linear.x = -1;		
 		if (msg.data == "move_forward") twist.linear.x = 1;		
 
-		RCLCPP_INFO(this->get_logger(), "I know tiwst linear %f and twist angular %f", twist.linear.x, twist.angular.z);
+		RCLCPP_INFO(this->get_logger(), "I know twist linear %f and twist angular %f", twist.linear.x, twist.angular.z);
 		
 		cmdVel_pub->publish(twist);
 	}
