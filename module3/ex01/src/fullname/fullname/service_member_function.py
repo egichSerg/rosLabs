@@ -1,0 +1,29 @@
+from name.srv import FullNameSumService
+
+import rclpy
+from rclpy.node import Node
+
+class summFullName(Node):
+
+    def __init__(self):
+        super().__init__('SummFullName')
+        self.srv = self.create_service(FullNameSumService, 'full_name_service', self.FullNameSumService_callback)
+
+    def FullNameSumService_callback(self, request, response):
+        response.full_name = request.last_name + ' ' + request.name + ' ' + request.first_name
+        self.get_logger().info(f'request strings:\n {request.last_name}\t{request.name}\t{request.first_name}')
+
+        return response
+
+def main():
+    rclpy.init()
+
+    SummFullName = summFullName()
+
+    rclpy.spin(SummFullName)
+
+    rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
