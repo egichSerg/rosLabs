@@ -16,19 +16,25 @@ class DynamicFrameBroadcaster(Node):
         self.timer = self.create_timer(0.1, self.broadcast_timer_callback)
 
         self.radius = self.declare_parameter(
-            'radius', '1').get_parameter_value().string_value
+            'radius', 1).get_parameter_value().integer_value
 
+        self.dir = self.declare_parameter(
+            'dir', 1).get_parameter_value().integer_value
+
+        self.get_logger().info(f'radius: {self.radius}')
+        self.get_logger().info(f'dir: {self.dir}')
 
     def broadcast_timer_callback(self):
-        seconds , _= self.get_clock().now().seconds_nanoseconds()
+        seconds, _ = self.get_clock().now().seconds_nanoseconds()
         x = (seconds / 10) * math.pi
 
         t = TransformStamped()
         t.header.stamp = self.get_clock().now().to_msg()
         t.header.frame_id = 'turtle1'
         t.child_frame_id = 'carrot1'
-        t.transform.translation.x = int(self.radius) * math.sin(x)
-        t.transform.translation.y = int(self.radius) * math.cos(x)
+        t.transform.translation.x = self.dir * self.radius * math.sin(x)
+        t.transform.translation.y = self.dir * self.radius * math.cos(x)
+        self.get_logger().info(f'dir: {self.dir}, radius: {self.radius}')
         t.transform.translation.z = 0.0
         t.transform.rotation.x = 0.0
         t.transform.rotation.y = 0.0

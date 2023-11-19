@@ -1,10 +1,6 @@
-import os
-
-from ament_index_python.packages import get_package_share_directory
-
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
-from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration
 
 from launch_ros.actions import Node
 
@@ -44,9 +40,25 @@ def generate_launch_description():
                 {'target_frame': LaunchConfiguration('target_frame')}
             ]
         ),
+
+        DeclareLaunchArgument(
+            name="dir",
+            default_value="1",
+            description="carrot rotation dir"),
+
+         DeclareLaunchArgument(
+            name="radius",
+            default_value="3",
+            description="carrot radius"),
+
         Node(
             package='learning_tf2_py',
             executable='dynamic_frame_tf2_broadcaster',
             name='dynamic_broadcaster',
+            parameters=[
+                {'radius': LaunchConfiguration('radius')},
+                {'dir': LaunchConfiguration('dir')},
+            ],
+
         ),
     ])
